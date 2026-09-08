@@ -22,14 +22,14 @@ CATEGORIES = {
 }
 
 def get_category(file_extension):
-    """File ki extension ke hisab se category return karta hai."""
+    """It returns a category based on the file extension."""
     for category, extensions in CATEGORIES.items():
         if file_extension.lower() in extensions:
             return category
     return 'Others'
 
 def organize_folder(target_directory):
-    """Main function jo files ko check karke folders mein shift karta hai."""
+    """The main function that checks files and moves them into folders."""
     if not os.path.exists(target_directory):
         print(f"Error: Folder '{target_directory}' nahi mila.")
         return
@@ -37,11 +37,10 @@ def organize_folder(target_directory):
     print(f"Organizing folder: {target_directory}\n" + "-"*40)
     logging.info(f"Started organizing directory: {target_directory}")
 
-    # Sirf files ki list lena (folders ko chhor kar)
+    # only files list 
     files = [f for f in os.listdir(target_directory) if os.path.isfile(os.path.join(target_directory, f))]
 
     for file_name in files:
-        # Log file ko organize karne se skip karein
         if file_name == 'organizer.log':
             continue
 
@@ -51,7 +50,7 @@ def organize_folder(target_directory):
         category = get_category(ext)
         category_dir = os.path.join(target_directory, category)
 
-        # Category folder banayein agar pehle se na ho
+        # Category folder
         os.makedirs(category_dir, exist_ok=True)
 
         destination_path = os.path.join(category_dir, file_name)
@@ -71,15 +70,15 @@ def organize_folder(target_directory):
             print(f"[MOVED] {log_msg}")
             logging.info(log_msg)
 
-        # File move karein
+        # Move File 
         shutil.move(file_path, destination_path)
 
     print("-" * 40)
-    print("Organization complete! Details 'organizer.log' mein save ho gayi hain.")
+    print("Organization complete! Details 'organizer.log' has been save in it.")
     logging.info("Completed organization task successfully.")
 
 if __name__ == '__main__':
-    # Apne computer ke Downloads folder ka path yahan dein
+    # Give your computer Downloads folder path here
     # System default Downloads path:
     downloads_path = os.path.expanduser("~/Downloads")
     
